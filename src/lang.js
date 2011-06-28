@@ -34,7 +34,7 @@
     LIMO.namespace = function(){
     
         var ctx = {
-            global: global,
+            global: global
         };
         
         var ns = global;
@@ -278,20 +278,6 @@
             }
             fun.apply(instance, args);
         }
-
-		function doBasiccall(sp, func, instance, args){
-            if (sp == null) {
-                throw new Error('type.superclass not defined. type may be not created by "LIMO.extend"');
-            }
-            
-            var fun = sp[func];
-            if (fun == null) {
-                throw new Error('type.superclass.' + func + ' is not found');
-            }
-            
-            basiccall(sp, func, instance, args);
-		}
-		
         
         /**
          * call other type's method
@@ -316,8 +302,18 @@
             var type = arguments[0];
             var func = arguments[1];
             var args = LIMO.slice(arguments, 2);
+            
             var sp = type.superclass;
-            doBasiccall(sp, func, this, args);
+            if (sp == null) {
+                throw new Error('type.superclass not defined. type may be not created by "LIMO.extend"');
+            }
+            
+            var fun = sp[func];
+            if (fun == null) {
+                throw new Error('type.superclass.' + func + ' is not found');
+            }
+            
+            basiccall(sp, func, this, args);
         };
 		
 		/**
@@ -328,7 +324,7 @@
 		subproto.$super = function(){
 			var type = arguments[0];
             var args = LIMO.slice(arguments, 1);
-			doBasiccall(type.superclass, 'constructor', this, args);
+			this.$base(type, 'constructor', args);
 		}
         
         return subc;
@@ -439,6 +435,10 @@
     ///////////////////////////////////////////////////////////
     LIMO.namespace('LIMO.util')(function(ns){
     
+		ns.capitalize = function(name){
+			return name.substr(0, 1).toUpperCase() + name.substr(1);
+		};
+	
         /**
          * definition property class.
          */
@@ -462,7 +462,7 @@
                 if (propName !== undefined) {
                     function prop(target, name, getterFunc, setterFunc){
                     
-                        var Name = name.substr(0, 1).toUpperCase() + name.substr(1);
+                        var Name = ns.capitalize(name);
                         
                         target['get' + Name] = getterFunc || self.createGetter(target, name);
                         target['set' + Name] = setterFunc || self.createSetter(target, name);
