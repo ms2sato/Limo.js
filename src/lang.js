@@ -49,7 +49,7 @@
             var nodes = nsname.split('.');
             LIMO.each(nodes, function(node){
                 if (ns[node] === undefined) {
-                    ns[node] = {}
+                    ns[node] = {};
                 }
                 ns = ns[node];
             });
@@ -58,6 +58,9 @@
         });
         
         var fullname = nsarray.join('.');
+        ctx.getName = function(){
+        	return fullname;
+        };
         return function(callback){
             console.log('begin scope: ' + fullname);
             callback(ns, ctx);
@@ -419,6 +422,10 @@
                 
                 
                 addListener: function(eventName, func){
+                	if(func === undefined || func === null){
+                		throw new Error('func is not defined');
+                	}
+                	
                     checkEvent(eventName);
                     
                     var ls = listeners[eventName];
