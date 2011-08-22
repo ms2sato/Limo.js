@@ -81,7 +81,7 @@ LIMO.namespace('LIMO.ui')(function(ns){
                     target.addEventListener(name, listener, useCapture);
                 }
                 else {
-                    target.removeEventListener(name, listener, userCapture);
+                    target.removeEventListener(name, listener, useCapture);
                 }
             }
         };
@@ -217,12 +217,12 @@ LIMO.namespace('LIMO.ui')(function(ns){
     LIMO.extend(ns.CssPropertyAppender, LIMO.util.PropertyAppender, {
         createGetter: function(target, name){
             return function(){
-                return $(this.element).css(name);
+                return $(this.getElement()).css(name);
             };
         },
         createSetter: function(target, name){
             return function(value){
-                $(this.element).css(name, value);
+                $(this.getElement()).css(name, value);
             };
         }
     });
