@@ -20,7 +20,7 @@ LIMO.namespace('LIMO.ui')(function(ns){
         
         if (LIMO.isString(prop)) {
             if (prop.substr(-2) == 'px') 
-                return prop.substr(0, prop.length - 2);
+                return parseInt(prop.substr(0, prop.length - 2));
             return prop;
         }
         
