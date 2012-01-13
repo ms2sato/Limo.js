@@ -416,7 +416,7 @@
 					
 					//FIXME: リストはコピーしてから使う
                     LIMO.each(ls, function(listener, index){
-                        listener.apply(listener, args);
+                        listener.apply(self, args);
                     })
                 },
                 
