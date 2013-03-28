@@ -66,16 +66,16 @@ LIMO.namespace('LIMO.ui')(function(ns){
     }
     
     /**
-     * リスナを設定する
-     * @param {Object} target
-     * @param {Object} name
-     * @param {Object} listener
-     * @param {Object} useCapture
-     * @return コントローラオブジェクト。setEnabledに真で有効。偽で無効。
+     * addEventListener's wrapper
+     * @param {HTMLElement} target
+     * @param {String} name
+     * @param {Function} listener
+     * @param {boolean} useCapture
+     * @return {Object} object for switch status. has setEnabled.
      */
     ns.addEventListener = function(target, name, listener, useCapture){
     
-        var controller = {
+        var switcher = {
             setEnabled: function(value){
                 if (value) {
                     target.addEventListener(name, listener, useCapture);
@@ -85,8 +85,8 @@ LIMO.namespace('LIMO.ui')(function(ns){
                 }
             }
         };
-        controller.setEnabled(true);
-        return controller;
+        switcher.setEnabled(true);
+        return switcher;
     }
     
     

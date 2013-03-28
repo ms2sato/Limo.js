@@ -38,7 +38,7 @@ LIMO.namespace('LIMO')(function(ns){
         },
 		
         isMobileSize: function(){
-            return this.getWidth() <= 320 && this.getHeight() <= 480;
+            return this.getWidth() <= 640 && this.getHeight() <= 1136;
         }
     });
     
