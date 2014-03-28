@@ -1,5 +1,6 @@
 LIMO.namespace('LIMO.ui.path')(function(ns){
 
+
     /**
      * URLパラメータの分解。
      */
@@ -48,6 +49,10 @@ LIMO.namespace('LIMO.ui.path')(function(ns){
         var e = document.createElement('span');
         e.innerHTML = '<a href="' + path + '" />';
         return e.firstChild.href;
+    }
+
+    ns.getServer = function(){
+        return location.protocol + '//' + location.host
     }
     
 });

@@ -5,14 +5,14 @@ LIMO.namespace('LIMO.backbone')(function (ns) {
      */
     ns.IndexedCollection = Backbone.Collection.extend({
 
-        initialize:function () {
-            this.index = {} // {uid to user}
+        initialize: function () {
+            this.index = {}; // {uid to user}
         },
-        getKey:function (model) {
+        getKey: function (model) {
             throw new Error('shoud define getKey() as return model.get("key")');
         },
 
-        add:function (models, options) {
+        add: function (models, options) {
 
             var self = this;
             var ret = Backbone.Collection.prototype.add.call(this, models, options);
@@ -28,7 +28,7 @@ LIMO.namespace('LIMO.backbone')(function (ns) {
 
             return ret;
         },
-        remove:function (models, options) {
+        remove: function (models, options) {
             var self = this;
             if (_.isArray(models)) {
                 //is collection
@@ -42,12 +42,15 @@ LIMO.namespace('LIMO.backbone')(function (ns) {
 
             return Backbone.Collection.prototype.remove.call(this, models, options);
         },
-        reset:function (models, options) {
+        reset: function (models, options) {
             this.index = {};
             return Backbone.Collection.prototype.reset.call(this, models, options);
         },
-        findById:function (uid) {
-            return this.index[uid];
+        findById: function (key) {
+            return this.index[key];
+        },
+        findByKey: function (key) {
+            return this.index[key];
         }
 
     });

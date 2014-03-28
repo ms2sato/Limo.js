@@ -63,7 +63,7 @@
     LIMO.namespace = function () {
 
         var ctx = {
-            global:global
+            global: global
         };
 
         var ns = global;
@@ -396,7 +396,28 @@
             LIMO.puts(child, arg);
         }
         return child;
-    }
+    };
+
+    LIMO.getLanguage = function () {
+        try {
+            return (navigator.browserLanguage || navigator.language || navigator.userLanguage).substr(0, 2);
+        }
+        catch (e) {
+            return undefined;
+        }
+    };
+
+    var locales = {
+        ja: 'ja_JP',
+        en: 'en_US'
+    };
+
+    LIMO.getLocale = function () {
+        var lang = LIMO.getLanguage();
+        var locale = locales[lang];
+        return locale || 'en_US';
+    };
+
     ///////////////////////////////////////////////////////////
     LIMO.namespace('LIMO.util')(function (ns) {
 
@@ -419,7 +440,7 @@
 
             var methods = {
 
-                hasEvent:function (eventName) {
+                hasEvent: function (eventName) {
                     var ev = events[eventName];
                     return (ev !== undefined);
                 },
@@ -427,14 +448,14 @@
                  * @param {Object} eventName
                  * @param {Object} option
                  */
-                addEvent:function (eventName, option) {
+                addEvent: function (eventName, option) {
                     events[eventName] = option || true;
                 },
                 /**
                  *
                  * @param {Object} eventName
                  */
-                fireEvent:function (eventName) {
+                fireEvent: function (eventName) {
                     checkEvent(eventName);
 
                     var ls = listeners[eventName];
@@ -449,7 +470,7 @@
                         listener.apply(self, args);
                     })
                 },
-                addListener:function (eventName, func) {
+                addListener: function (eventName, func) {
                     if (func === undefined || func === null) {
                         throw new Error('func is not defined');
                     }
@@ -463,15 +484,18 @@
                         ls.push(func);
                     }
                 },
-                clearListeners:function () {
+                clearListeners: function () {
                     listeners = {};
                 }
             };
 
             methods['on'] = methods.addListener;
+            methods['trigger'] = methods.fireEvent;
 
             LIMO.puts(this, methods);
         });
+
+
     });
     ///////////////////////////////////////////////////////////
     LIMO.namespace('LIMO.util')(function (ns) {
@@ -484,15 +508,15 @@
 
         LIMO.extend(ns.PropertyAppender, Object, {
 
-            getPropertyNameBody:function (name) {
+            getPropertyNameBody: function (name) {
                 return name.substr(0, 1).toUpperCase() + name.substr(1);
             },
 
-            getGetterName:function (name) {
+            getGetterName: function (name) {
                 return 'get' + this.getPropertyNameBody(name);
             },
 
-            getSetterName:function (name) {
+            getSetterName: function (name) {
                 return 'set' + this.getPropertyNameBody(name);
             },
 
@@ -504,7 +528,7 @@
              * @param {Object} getterFunc getter(optional)
              * @param {Object} setterFunc setter(optional)
              */
-            add:function (target, propName, getterFunc, setterFunc) {
+            add: function (target, propName, getterFunc, setterFunc) {
                 var self = this;
                 target = target || {};
 
@@ -526,12 +550,12 @@
 
                 return this;
             },
-            createGetter:function (target, name) {
+            createGetter: function (target, name) {
                 return function () {
                     return target[name];
                 };
             },
-            createSetter:function (target, name) {
+            createSetter: function (target, name) {
                 return function (value) {
                     target[name] = value;
                 };
@@ -546,7 +570,7 @@
             return function (target, propName, getterFunc, setterFunc) {
                 appender.add(target, propName, getterFunc, setterFunc);
                 var handler = {
-                    add:function (pName, gFunc, sFunc) {
+                    add: function (pName, gFunc, sFunc) {
                         appender.add(target, pName, gFunc, sFunc);
                         return handler;
                     }
